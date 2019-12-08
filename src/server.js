@@ -3,6 +3,14 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const WebSocket = require('ws');
 const {connect} = require('./websocket/callbacks');
+const {checkAuth} = require('./helpers/auth');
+const admin = require('firebase-admin');
+var serviceAccount = require("../config/caremet-server-firebase-adminsdk-vbkd1-89ea378a7e.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://caremet-server.firebaseio.com"
+});
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +22,8 @@ app.use(bodyParser.urlencoded({
 }));
     
 app.use(bodyParser.json());
+
+app.use(checkAuth);
 
 require('./routes/login_routes')(app)
 
