@@ -11,21 +11,21 @@ module.exports = {
                     const {id} = req.params
                     User.findById(id).select('uid').then((user) => {
                         if(user.uid !== decodedToken.uid){
-                            return res.status(403).send('Unauthorized')
+                            return res.status(403).send('Unauthorized');
                         }else{
-                            next()
+                            next();
                         }
                     }).catch(() => {
-                        return res.status(403).send('Unauthorized')
+                        return res.status(403).send('Unauthorized');
                     })
                 }else{
-                    return res.status(403).send('Unauthorized')
+                    return res.status(403).send('Unauthorized');
                 }
             }).catch((err) => {
-                return res.status(403).send('Unauthorized')
+                return res.status(403).send('Unauthorized');
             });
         } else {
-            return res.status(403).send('Unauthorized')
+            return res.status(403).send('Unauthorized');
         }
     }
 }
