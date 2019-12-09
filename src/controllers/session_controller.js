@@ -26,11 +26,15 @@ module.exports = {
     login: async (req, res) => {
         if(req.headers.authorization) {
             admin.auth().verifyIdToken(req.headers.authorization).then((decodedToken) => {
-                User.findOneAndUpdate({_id: req.params.id}, {uid: decodedToken.uid}).then((record) => {
-                    return res.status(200).send({id: record._id});
-                }).catch(() => {
-                    return res.status(403).send('Unauthorized');
-                });
+                admin.auth().getUser(decodedToken.uid)
+                .then((userRecord) => {
+                    User.findOneAndUpdate({email: userRecord.toJSON().email}, {uid: decodedToken.uid}).then((record) => {
+                        return res.status(200).send({id: record._id});
+                    }).catch((err) => {
+                        return res.status(403).send('Unauthorized');
+                    });
+                })
+                
             }).catch(() => {
                 return res.status(403).send('Unauthorized');
             });
