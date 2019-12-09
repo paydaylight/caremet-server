@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 app.options('*', cors());
 // app.use(checkAuth);
 require('./models/user');
+require('./models/report');
 require('./routes/login_routes')(app);
 require('./routes/profile_routes')(app);
 require('./routes/reports_routes')(app);

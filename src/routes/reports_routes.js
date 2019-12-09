@@ -8,5 +8,13 @@ module.exports = (app) => {
 
     app.post('/api/users/:id/reports', checkAuth, (req, res) => {
         controller.createReport(req, res);
-    })
+    });
+
+    app.put('/api/users/:id/reports/:reportId', checkAuth, (req, res) => {
+        controller.updateReport(req, res);
+    });
+
+    app.delete('/api/users/:id/reports/:reportId', checkAuth, (req, res) => {
+        controller.deleteReport(req, res);
+    });
 }
